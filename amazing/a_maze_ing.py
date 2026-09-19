@@ -4,25 +4,10 @@ from typing import Dict, List, Tuple
 
 from mazegen.generator import MazeGenerator
 from mazegen.renderer import Renderer
-
-
-def parse_config(file_path: str) -> Dict[str, str]:
-    """Read the configuration file and return a dictionary of settings."""
-    config = {}
-    try:
-        with open(file_path, 'r', encoding='utf-8') as stream:
-            for line in stream:
-                line = line.strip()
-                if not line or line.startswith('#'):
-                    continue
-                if '=' in line:
-                    key, value = line.split('=', 1)
-                    config[key.strip()] = value.strip()
-    except Exception as error:
-        print(f"Configuration read error: {error}")
-        sys.exit(1)
-    return config
-
+from config_parser import (
+    parse_config,
+    validate_config_dimensions,
+)
 
 def convert_path_to_coords(
     start_x: int,
@@ -49,6 +34,8 @@ def main() -> None:
         sys.exit(1)
 
     config = parse_config(sys.argv[1])
+    if validate_config_dimensions(config) is False:
+        return
     width = int(config.get('WIDTH', 10))
     height = int(config.get('HEIGHT', 10))
     perfect = config.get('PERFECT', 'False').strip().lower() == 'true'
