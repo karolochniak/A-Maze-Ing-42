@@ -56,15 +56,15 @@ def main() -> None:
 
     generator = MazeGenerator(width, height, perfect)
     generator.generate()
-    path_str = generator.solve(entry_x, entry_y, exit_x, exit_y)
-    path_coords = convert_path_to_coords(entry_x, entry_y, path_str)
+    path_st = generator.solve(entry_x, entry_y, exit_x, exit_y)
+    path_coords = convert_path_to_coords(entry_x, entry_y, path_st)
 
     generator.save_to_file(
-        output_file, entry_x, entry_y, exit_x, exit_y, path_str
+        output_file, entry_x, entry_y, exit_x, exit_y, path_st
     )
 
     while True:
-        print("\n" * 2)
+        print("\033[H\033[J", end="")
         renderer.display(
             generator.grid,
             (entry_x, entry_y),
@@ -72,32 +72,30 @@ def main() -> None:
             path_coords,
             show_path
         )
-
         print("\n=== A-Maze-ing ===")
         print("1. Generate new maze")
         print("2. Show/Hide shortest path")
         print("3. Change wall color")
         print("4. Quit")
+        choice = input()
 
-        choice = input("Choice? (1-4): ").strip()
-
-        if choice == '1':
-            generator = MazeGenerator(width, height, perfect)
-            generator.generate()
-            path_str = generator.solve(entry_x, entry_y, exit_x, exit_y)
-            path_coords = convert_path_to_coords(entry_x, entry_y, path_str)
-            generator.save_to_file(
-                output_file, entry_x, entry_y, exit_x, exit_y, path_str
-            )
-        elif choice == '2':
-            show_path = not show_path
-        elif choice == '3':
-            color_idx = (color_idx + 1) % len(colors)
-            renderer.wall_color = colors[color_idx]
-        elif choice == '4':
-            break
-        else:
-            print("Invalid choice!")
+        match choice:
+            case "1":
+                generator = MazeGenerator(width, height, perfect)
+                generator.generate()
+                path_st = generator.solve(entry_x, entry_y, exit_x, exit_y)
+                path_coords = convert_path_to_coords(entry_x, entry_y, path_st)
+                generator.save_to_file(
+                    output_file, entry_x, entry_y, exit_x, exit_y, path_st)
+            case "2":
+                show_path = not show_path
+            case "3":
+                color_idx = (color_idx + 1) % len(colors)
+                renderer.wall_color = colors[color_idx]
+            case "4":
+                break
+            case _:
+                input("Invalid syntax!! Please click enter to continue")
 
 
 if __name__ == "__main__":
