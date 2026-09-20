@@ -38,12 +38,14 @@ def main() -> None:
         width = int(config.get('WIDTH', 10))
         height = int(config.get('HEIGHT', 10))
         perfect = config.get('PERFECT', 'False').strip().lower() == 'true'
-
         entry_x, entry_y = map(int, config.get('ENTRY', '0,0').split(','))
         exit_x, exit_y = map(
             int, config.get('EXIT', f'{width-1},{height-1}').split(',')
         )
         output_file = config.get('OUTPUT_FILE', 'maze.txt')
+        seed_value = config.get("SEED")
+        seed = int(seed_value) if seed_value is not None else None
+
     except (ValueError, OSError) as e:
         print(f"Error: {e}")
         sys.exit(1)
@@ -54,7 +56,7 @@ def main() -> None:
     color_idx = 0
     show_path = False
 
-    generator = MazeGenerator(width, height, perfect)
+    generator = MazeGenerator(width, height, perfect, seed)
     generator.generate()
     path_st = generator.solve(entry_x, entry_y, exit_x, exit_y)
     path_coords = convert_path_to_coords(entry_x, entry_y, path_st)

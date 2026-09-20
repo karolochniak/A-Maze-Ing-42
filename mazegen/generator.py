@@ -6,7 +6,13 @@ from typing import List, Tuple
 class MazeGenerator:
     """Class that generates and manages the maze structure."""
 
-    def __init__(self, width: int, height: int, perfect: bool = False) -> None:
+    def __init__(
+            self,
+            width: int,
+            height: int,
+            perfect: bool = False,
+            seed: int | None = None
+    ) -> None:
         """Initializes the maze object with the given dimensions.
 
         Args:
@@ -14,12 +20,14 @@ class MazeGenerator:
             height (int): Height of the maze (number of cells).
             perfect (bool, optional): Flag indicating whether the maze should
                 be perfect. Defaults to False (Pac-Man mode).
+            seed (int | None, optional): Seed for the random number generator.
         """
         self.width = width
         self.height = height
         self.perfect = perfect
         self.grid = [[15 for _ in range(width)] for _ in range(height)]
         self.reserved_cells: set[Tuple[int, int]] = set()
+        self.random = random.Random(seed)
 
     def _carve_passages(self, start_x: int, start_y: int) -> None:
         """Carves paths in the maze using the DFS algorithm.
@@ -54,7 +62,7 @@ class MazeGenerator:
                     unvisited_neighbors.append((nx, ny, wall_here, wall_there))
 
             if unvisited_neighbors:
-                nx, ny, wall_here, wall_there = random.choice(
+                nx, ny, wall_here, wall_there = self.random.choice(
                     unvisited_neighbors
                 )
                 self.grid[cy][cx] &= ~wall_here
@@ -230,6 +238,7 @@ class MazeGenerator:
                                 )
 
                     if possible_walls:
-                        nx, ny, w_here, w_there = random.choice(possible_walls)
+                        nx, ny, w_here, w_there = self.random.choice(
+                            possible_walls)
                         self.grid[y][x] &= ~w_here
                         self.grid[ny][nx] &= ~w_there
