@@ -2,7 +2,7 @@
 import sys
 from typing import List, Tuple
 from mazegen.generator import MazeGenerator
-from mazegen.renderer import Renderer
+from renderer import Renderer
 from config_parser import (
     parse_config,
     validate_config_dimensions,
