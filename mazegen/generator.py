@@ -1,17 +1,17 @@
 import random
 from collections import deque
-from typing import List, Tuple
+from typing import List, Set, Tuple
 
 
 class MazeGenerator:
     """Class that generates and manages the maze structure."""
 
     def __init__(
-            self,
-            width: int,
-            height: int,
-            perfect: bool = False,
-            seed: int | None = None
+        self,
+        width: int,
+        height: int,
+        perfect: bool = False,
+        seed: int | None = None
     ) -> None:
         """Initializes the maze object with the given dimensions.
 
@@ -26,7 +26,7 @@ class MazeGenerator:
         self.height = height
         self.perfect = perfect
         self.grid = [[15 for _ in range(width)] for _ in range(height)]
-        self.reserved_cells: set[Tuple[int, int]] = set()
+        self.reserved_cells: Set[Tuple[int, int]] = set()
         self.random = random.Random(seed)
 
     def _carve_passages(self, start_x: int, start_y: int) -> None:
@@ -44,12 +44,12 @@ class MazeGenerator:
         }
 
         stack: List[Tuple[int, int]] = [(start_x, start_y)]
-        visited = set()
+        visited: Set[Tuple[int, int]] = set()
         visited.add((start_x, start_y))
 
         while stack:
             cx, cy = stack[-1]
-            unvisited_neighbors = []
+            unvisited_neighbors: List[Tuple[int, int, int, int]] = []
 
             for dir_nam, (dx, dy, wall_here, wall_there) in directions.items():
                 nx, ny = cx + dx, cy + dy
@@ -142,7 +142,7 @@ class MazeGenerator:
         }
 
         queue = deque([(start_x, start_y, "")])
-        visited = set()
+        visited: Set[Tuple[int, int]] = set()
         visited.add((start_x, start_y))
 
         while queue:
@@ -222,7 +222,7 @@ class MazeGenerator:
                     continue
 
                 if self.grid[y][x] in dead_ends:
-                    possible_walls = []
+                    possible_walls: List[Tuple[int, int, int, int]] = []
 
                     for d_name, (dx, dy, w_here, w_there) in directio.items():
                         if self.grid[y][x] & w_here:
@@ -239,6 +239,7 @@ class MazeGenerator:
 
                     if possible_walls:
                         nx, ny, w_here, w_there = self.random.choice(
-                            possible_walls)
+                            possible_walls
+                        )
                         self.grid[y][x] &= ~w_here
                         self.grid[ny][nx] &= ~w_there
