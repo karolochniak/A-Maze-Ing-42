@@ -1,4 +1,4 @@
-This project has been created as part of the 42 curriculum by kochniak, jwira.
+*This project has been created as part of the 42 curriculum by kochniak, jwira.*
 
 
 
@@ -130,8 +130,8 @@ generator = MazeGenerator(width = 15, height = 10, perfect = False, seed = 12)
 | Bit | Value | Wall  |
 |-----|-------|-------|
 | 0   | 1     | North |
-| 1   | 2     | South |
-| 2   | 4     | East  |
+| 1   | 2     | East  |
+| 2   | 4     | South |
 | 3   | 8     | West  |
 
 A cell with value `15` (all bits set) has all walls intact. A cell with value `0` has no walls.## Team and Project Management
@@ -182,7 +182,7 @@ The DFS algorithm took longer than expected. Animation and the interactive menu 
 
 ### AI Usage
 
-Gemini  was used as a development assistant throughout this project.
+Gemini was used as a development assistant throughout this project.
 Specifically for:
 - help understand concepts
 - make architectural decisions
