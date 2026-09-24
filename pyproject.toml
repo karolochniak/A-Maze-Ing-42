@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "A-Maze-ing generator package for the 42 Common Core"
 readme = "README.md"
 requires-python = ">=3.10"
-license = MIT
+license = "MIT"
 
 authors = [
 	{ name = "kochniak", email = "kochniak@student.42.fr" },
