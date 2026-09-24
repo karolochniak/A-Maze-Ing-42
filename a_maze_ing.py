@@ -46,7 +46,7 @@ def main() -> None:
         validate_config_dimensions(config)
         width = int(config.get('WIDTH', 0))
         height = int(config.get('HEIGHT', 0))
-        perfect = config.get('PERFECT', 'False') == 'true'
+        perfect = config.get('PERFECT', 'False').strip().lower() == 'true'
         entry_x, entry_y = map(int, config.get('ENTRY', '0,0').split(','))
         exit_x, exit_y = map(int, config.get('EXIT', '0,0').split(','))
         output_file = config.get('OUTPUT_FILE', 'maze.txt')
