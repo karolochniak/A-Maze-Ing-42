@@ -5,7 +5,7 @@ from mazegen.generator import MazeGenerator
 from renderer import Renderer
 from config_parser import (
     parse_config,
-    validate_config_dimensions,
+    validate_config_dimensions
 )
 
 
@@ -44,13 +44,11 @@ def main() -> None:
     try:
         config = parse_config(sys.argv[1])
         validate_config_dimensions(config)
-        width = int(config.get('WIDTH', 10))
-        height = int(config.get('HEIGHT', 10))
-        perfect = config.get('PERFECT', 'False').strip().lower() == 'true'
+        width = int(config.get('WIDTH', 0))
+        height = int(config.get('HEIGHT', 0))
+        perfect = config.get('PERFECT', 'False') == 'true'
         entry_x, entry_y = map(int, config.get('ENTRY', '0,0').split(','))
-        exit_x, exit_y = map(
-            int, config.get('EXIT', f'{width-1},{height-1}').split(',')
-        )
+        exit_x, exit_y = map(int, config.get('EXIT', '0,0').split(','))
         output_file = config.get('OUTPUT_FILE', 'maze.txt')
         seed_value = config.get("SEED")
         seed = int(seed_value) if seed_value is not None else None
@@ -83,7 +81,11 @@ def main() -> None:
             path_coords,
             show_path
         )
-        print("\n=== A-Maze-ing ===")
+        if width < 11 or height < 9:
+            print(
+                "\nWarning: Maze is too small to generate the '42' pattern."
+            )
+        print("=== A-Maze-ing ===")
         print("1. Generate new maze")
         print("2. Show/Hide shortest path")
         print("3. Change wall color")
