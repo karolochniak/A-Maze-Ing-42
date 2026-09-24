@@ -140,6 +140,10 @@ The constructor accepts custom maze dimensions, the maze mode, and an optional s
 
 ## Accessing the Generated Maze
 
+```python
+generator.generate()
+```
+
 After calling `generate()`, the generated maze structure is available through the `grid` attribute:
 
 ```python
