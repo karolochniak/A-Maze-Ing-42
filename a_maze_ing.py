@@ -14,7 +14,16 @@ def convert_path_to_coords(
     start_y: int,
     path_str: str
 ) -> List[Tuple[int, int]]:
-    """Convert a string of letters (N, E, S, W) to a list of coordinates."""
+    """Convert a string of letters (N, E, S, W) to a list of coordinates.
+
+        Args:
+            start_x (int): The starting x-coordinate.
+            start_y (int): The starting y-coordinate.
+            path_str (str): A string of letters representing the path.
+
+        Returns:
+            List[Tuple[int, int]]: A list of coordinates representing the path.
+    """
     coords = [(start_x, start_y)]
     cx, cy = start_x, start_y
     moves = {'N': (0, -1), 'E': (1, 0), 'S': (0, 1), 'W': (-1, 0)}
@@ -51,7 +60,7 @@ def main() -> None:
         sys.exit(1)
     renderer = Renderer()
     colors = [
-        "white", "red", "green", "blue", "yellow", "cyan", "magenta"
+        "white", "pink", "red", "green", "blue", "yellow", "cyan", "magenta"
     ]
     color_idx = 0
     show_path = False
